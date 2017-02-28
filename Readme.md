@@ -45,22 +45,26 @@ Q3 Que vient t'il de se passer à nouveau ?
     - Ajoutez un nouvel enregistrement {"name": "toto, "adresses : [ {"rue": "rouge", "avenue": "bleue"}]"}
 
 Q4 Que demandez-vous à google pour comprendre comment utiliser l'opérateur $exists
+
     - Listez tous les enregistrements qui possèdent un champ 'avenue'
 
 Q5 Accédez à la documentation de l'opérateur $set
+
     - Mettre à jour le premier enregistrement pour changer le nom en "Stéphanie"
     - Mettre à jour ce même enregistrement pour ajouter l'adresse {"rue":"de savoie"} dans la liste d'adresse avec l'opérateur $set
     - Ajouter une adresse {"rue": "de paris"} dans ce document en utilisant l'opérateur $push
     - Ajouter l'addresse { "rue" : "du géant" } à l'enregistrement {"name": "toto"}
 
 Vous devriez les documents suivants dans la collection user.
-{ "_id" : ObjectId("58b54ffd9e3e09f1f94bf964"), "nom" : "Stéphanie", "adresses" : [ { "rue" : "de savoie" }, { "rue" : "de paris" } ] }
-{ "_id" : ObjectId("58b5528792253cba20788458"), "name" : "titi", "adresses" : [ { "rue" : "du nain" }, { "rue" : "du géant" } ] }
-{ "_id" : ObjectId("58b558d192253cba20788459"), "name" : "toto", "adresses" : [ { "rue" : "rouge", "avenue" : "bleue" }, { "rue" : "du géant" } ] }
+
+    { "_id" : ObjectId("58b54ffd9e3e09f1f94bf964"), "nom" : "Stéphanie", "adresses" : [ { "rue" : "de savoie" }, { "rue" : "de paris" } ] }
+    { "_id" : ObjectId("58b5528792253cba20788458"), "name" : "titi", "adresses" : [ { "rue" : "du nain" }, { "rue" : "du géant" } ] }
+    { "_id" : ObjectId("58b558d192253cba20788459"), "name" : "toto", "adresses" : [ { "rue" : "rouge", "avenue" : "bleue" }, { "rue" : "du géant" } ] }
 
 Vous pouvez éventuellement sauvegarder et reprendre votre base avec les fonctions dump et restore du repertoire bin.
 
 Q6 Manipulation de sous-documents
+    
     - En comprenant l'opérateur $, changez les adresses de toutes les "rue":"du géant" en "rue":"de la naine".
     - Trouvez toutes les rues avec un 'é'
     - Avec l'opérateur $unset suprimer le champ 'avenue' de l'adresse
