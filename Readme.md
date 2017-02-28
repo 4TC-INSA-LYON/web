@@ -32,19 +32,60 @@ Mongo est une base de données documentaires. C'est à dire que l'unité d'infor
 Dans la question suivante, chaque ligne correspond à une commande.
 Ecrivez la suite de commandes dans un fichier que vous stockerez dans votre compte utilisateur.
 
-    Lancez l'interpréteur de commande avec 'toto' en paramètre.
-    Insérer l'enregistrement {"Nom": "Frénot"} dans la collection 'user'
-    Listez tous les enregistrements de la collection
+    - Lancez l'interpréteur de commande avec 'toto' en paramètre.
+    - Insérez l'enregistrement {"Nom": "Frénot"} dans la collection 'user'
+    - Listez tous les enregistrements de la collection
 
 Q2 Que vient t'il de se passer qui n'est pas classique ?
 
-    Ajoutez l'enregistrement {"name": "titi", "adresses": [ {"rue": "du nain"}, {"rue": "du géant"}]}
+    - Ajoutez l'enregistrement {"name": "titi", "adresses": [ {"rue": "du nain"}, {"rue": "du géant"}]}
 
 Q3 Que vient t'il de se passer à nouveau ?
 
+    - Ajoutez un nouvel enregistrement {"name": "toto, "adresses : [ {"rue": "rouge", "avenue": "bleue"}]"}
+
+Q4 Que demandez-vous à google pour comprendre comment utiliser l'opérateur $exists
+    - Listez tous les enregistrements qui possèdent un champ 'avenue'
+
+Q5 Accédez à la documentation de l'opérateur $set
+    - Mettre à jour le premier enregistrement pour changer le nom en "Stéphanie"
+    - Mettre à jour ce même enregistrement pour ajouter l'adresse {"rue":"de savoie"} dans la liste d'adresse avec l'opérateur $set
+    - Ajouter une adresse {"rue": "de paris"} dans ce document en utilisant l'opérateur $push
+    - Ajouter l'addresse { "rue" : "du géant" } à l'enregistrement {"name": "toto"}
+
+Vous devriez les documents suivants dans la collection user.
+{ "_id" : ObjectId("58b54ffd9e3e09f1f94bf964"), "nom" : "Stéphanie", "adresses" : [ { "rue" : "de savoie" }, { "rue" : "de paris" } ] }
+{ "_id" : ObjectId("58b5528792253cba20788458"), "name" : "titi", "adresses" : [ { "rue" : "du nain" }, { "rue" : "du géant" } ] }
+{ "_id" : ObjectId("58b558d192253cba20788459"), "name" : "toto", "adresses" : [ { "rue" : "rouge", "avenue" : "bleue" }, { "rue" : "du géant" } ] }
+
+Vous pouvez éventuellement sauvegarder et reprendre votre base avec les fonctions dump et restore du repertoire bin.
+
+Q6 Manipulation de sous-documents
+    - En comprenant l'opérateur $, changez les adresses de toutes les "rue":"du géant" en "rue":"de la naine".
+    - Trouvez toutes les rues avec un 'é'
+    - Avec l'opérateur $unset suprimer le champ 'avenue' de l'adresse
 
 
+********
+Pensez à relire toutes vos commandes. Posez des questions si certaines choses ne sont pas claires.
+
+Selon vous, qu'est-ce qui n'a pas été étudié dans ce sujet ?
+
+Etes-vous capable de trouver les avantages et inconvénients à l'usage d'un moteur comme mongodb ?
+********
 
 # Extension
-Comment faire pour éviter les jointures du modèle relationnelle dans mongo ?
-Vous pouvez faire le même exercice avec ElasticSearch...
+Les jointures sont réputées pour être catastrophiques en temps de réponse dans mongo. Imaginez des solutions pour les éviter.
+
+# Conclusion
+Ce TD n'a fait qu'effleurer le potentiel de MongoDB. Aujourd'hui, il existe de très nombreuses bases de données NoSQL (200 au minimum) qui choisissent d'optimiser telle ou telle partie du moteur et de la gestion de la donnée. Redis, memcache, cassandra, neo4J, elasticsearch...
+
+Ils reposent tous cependant sur les mêmes principes :
+  - Un serveur qui se lance comme un démon sur plusieurs machines
+  - Une remise en cause du principe de stabilité du modèle de données au cours du temps
+  - Un langage d'interrogation permettant de réaliser des requêtes adaptées au modèle philosophique du moteur
+  - Beaucoup de bruit sur Internet, rendant difficile à comprendre les vrais enjeux des systèmes noSQL
+
+Copyright : Stéphane Frénot
+
+NB : certaines erreurs se sont glissées volontairement dans les exemples...
