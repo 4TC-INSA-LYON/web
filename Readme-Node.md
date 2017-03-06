@@ -52,6 +52,11 @@ Testez dans votre navigateur.
 https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
 
 # Intégration dans l'interrogation mongo
+## Importez la base test dans le fichier dump.tgz fourni
 Au lancement du serveur, créer une connexion mongo (cf TD précédent)
 
-Réalisez une route permettant de faire une requête sur mongo
+## Connection mongo
+En utilisant le mondule npm mongodb, connectez-vous à la base de données test
+
+## Interrogation mongo
+Réalisez une première route '/api/v1/user' permettant de faire une requête sur mongo et de récupérer la liste des documents de la collection users.
