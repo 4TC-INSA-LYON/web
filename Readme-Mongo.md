@@ -64,7 +64,7 @@ Vous devriez les documents suivants dans la collection user.
 Vous pouvez éventuellement sauvegarder et reprendre votre base avec les fonctions dump et restore du repertoire bin.
 
 Q6 Manipulation de sous-documents
-    
+
     - En comprenant l'opérateur $, changez les adresses de toutes les "rue":"du géant" en "rue":"de la naine".
     - Trouvez toutes les rues avec un 'é'
     - Avec l'opérateur $unset suprimer le champ 'avenue' de l'adresse
@@ -76,6 +76,14 @@ Pensez à relire toutes vos commandes. Posez des questions si certaines choses n
 Selon vous, qu'est-ce qui n'a pas été étudié dans ce sujet ?
 
 Etes-vous capable de trouver les avantages et inconvénients à l'usage d'un moteur comme mongodb ?
+
+********
+A l'issue de ce TD, vous devez savoir :
+- Installer rapidement mongo sur votre machine
+- Lancer le serveur mongo sur un répertoire
+- Interagir avec mongo, pour les fonctions CRUD classiques
+- Importer et exporter une base
+
 ********
 
 # Extension
