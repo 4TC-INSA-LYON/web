@@ -30,7 +30,7 @@ Réalisez une série de commande sous node, pour bien vérifier que vous maitris
 - tableau / objets
 
 -> C'est bon ? Vous avez tout retrouvé ?
--> Avez-vous des questions ?
+Q2 : Avez-vous des questions ? (cf. NaNaNaNaNWatmannnn)
 
 # Lancement initial
 
@@ -65,10 +65,50 @@ Réalisez une première route de type GET, de nom '/api/v1/user' permettant de f
 ## Code de test
 Utiliser le code de test et vérifier qu'il fonctionne
 
+Q5 : Que pouvez-vous dire de ce code ?
+
 ## Ajout d'une route POST
-Décommentez la ligne post, puis ajoutez la route associée
+Décommentez la ligne post du client de test, puis ajoutez la route associée.
 
+## Ajout d'une route de récupération d'un projet spécifique
+Décommentez le dernier appel dans le code de test
+Q6 : Ajoutez dans le test le test de la route suivante
+GET '/project/56a112e89ace319342ce09ea'
 
+Q7 : Compléter votre code pour gérer la route
+GET '/project/:id'
 
-## Pour continuer
-Ajouter toutes les routes post
+## Passage par un middleware
+Entre le déclenchement de la route et son retour final, il est possible d'intercaler des fonctions de traitement intermédiaires. Ces fonctions travaillent sur la requête initiale, et peuvent modifier la réponse apportée. Les middleware peuvent être générique, il est alors possible d'effectuer des traitements génériques factorisables avant de renvoyer la réponse.
+
+Q8 : Injectez le middleware suivant dans la route /project/:id, afin d'injecter le projet avant de renvoyer la réponse au client.
+
+    injectUser = function(req, res, next) {
+      projectCollection.findOne({"_id": new mongo.ObjectID(req.params.id)}, function(err, result) {
+        if (err || result === null) {
+          return res.status(404).send("Pas d'utilisateur");
+        } else {
+          req.user = result;
+          next();
+        }
+      });
+    }
+
+Q9 : Injecter un middleware qui comptabilise le nombre d'accès à un projet particulier et qui incrémente automatiquement un compteur dans la collection mongo correspondante.
+
+Pour finir avec les middleware, il est possible d'avoir des middlewares parametrés, qui récupèrent automatiquement le nom du paramètre passé dans l'appel.
+
+Q10 : Transformez le middleware injectUser, par un middleware paramétré selon la route suivante.
+GET '/project/:projectId'
+
+En guide, voici la signature du middleware paramétré correspondant :
+app.param 'formationId', function (req, res, next, formationId) {...}
+
+## Wrap up final
+A la fin de cette séance, vous devez savoir :
+- Comprendre la notion de fonction asynchrone dans le Web
+- Manipuler basiquement un serveur node. Installation, lancement, rédemarrage
+- Interfacer des routes node sur un serveur asynchrone externe comme mongo
+- Comprendre le principe des interfaces REST sur une base de données
+- Comprendre le mécanisme d'interposition entre client et réponse finale
+- Savoir développer un ensemble d'API serveur JSON offertes à un client Web

@@ -8,23 +8,31 @@ test('->Connexion', function(assert) {
   .expect(200)
   .end( function(err, res) {
     if (err) { throw err; }
-    //console.log("-->", res.body, res.body.length);
-    assert.same(res.body.length, 20)
+    assert.same(res.body.length, 21)
     assert.end();
    });
 });
 
-test('->Insertion', function (assert) {
-  request
-  .post('/user')
-  .send({"name": "toto"})
-  .expect(200)
-  .end( function(err, res) {
-    if (err) { throw err; }
-    assert.same(res.body, {})
-    assert.end();
-  });
-});
+// test('->Insertion', function (assert) {
+//   request
+//   .post('/user')
+//   .send({"name": "toto"})
+//   .expect(200)
+//   .end( function(err, res) {
+//     if (err) { throw err; }
+//     assert.same(res.body, {})
+//     assert.end();
+//   });
+// });
 
 
-
+// test('->Get', function (assert) {
+//   request
+//   .get('/project/56a112e89ace319342ce09eb')
+//   .expect(200)
+//   .end( function(err, res) {
+//     if (err) { throw err; }
+//     assert.same(res.body.name, 'G9 Wotoy')
+//     assert.end();
+//   });
+// });
