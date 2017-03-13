@@ -1,4 +1,4 @@
-https://medium.com/the-node-js-collection/why-the-hell-would-you-use-node-js-4b053b94ab8e#.ot01zwcnc
+https://medium.com/the-node-js-collection/why-the-hell-would-you-use-node-js-4b053b94ab8e#.ot01zwcnc  
 
 NodeJS est un interpréteur JavaScript, événementiel orienté vers des applications réseau à forte montée en charge. Le projet est annoncé en 2009 par Ryan Dahl, et repose sur la nouvelle machine virtuelle V8 de Google. Principalement, NodeJS repose sur une approche mono-threadé pour le traitement de requêtes réseau. Le coeur d'exécution est similaire à celui d'un navigateur Web, sans la partie complexe de gestion du DOM.
 
