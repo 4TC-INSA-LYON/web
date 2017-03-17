@@ -46,6 +46,7 @@ Angular est donc un framework web installé dans le navigateur lorsqu'on accède
     - Ajoutez le chargement de ce script dans le body de votre page html avec l'instruction html suivante : <script src="/lib/angular/angular.min.js"></script>. Vérifiez que le module angular.min.js est bien chargé par le navigateur.
 
 Maintenant que la librairie est bien chargée sans erreur dans votre navigateur, vous pouvez déclarer une nouvelle application angularJS dans votre environement. Une application est constituée d'un ensemble de modules. Le module principal décrit votre application. Chaque module doit être chargé explicitement par votre navigateur. Il y a plusieurs manière de faire dans notre exemple :    
+
     - Déclarez dans votre page html l'utilisation du module BlankApp avec l'instruction suivante : <body ng-app="BlankApp">...
     - Créez un fichier modules.js dans votre front, qui déclare une application 'BlankApp'. La déclaration d'une application est décrit ici. https://docs.angularjs.org/api/ng/function/angular.module
     - Pensez à charger le fichier module.js par votre front.
@@ -55,15 +56,16 @@ Chargez votre application. Celle-ci ne fait rien pour l'instant, mais vous devez
 # Ajout d'un bouton dans l'interface et traitement angular
 Vous allez maintenant ajouter un bouton dans votre interface utilisateur afin de déclencher les interactions.
 
-Nous allons ajouter ce bouton directement dans la page principale après a balise <body> selon la syntaxe suivante <button ng-click='coucou()'>Clique moi</button>. Le bouton déclare un attribut ng-click, qui, comme son préfixe l'indique est lié à angular, et comme son nom l'indique va déclencher une action lié au click souris.    
+Nous allons ajouter ce bouton directement dans la page principale après a balise <body> selon la syntaxe suivante `<button ng-click='coucou()'>Clique moi</button>`. Le bouton déclare un attribut ng-click, qui, comme son préfixe l'indique est lié à angular, et comme son nom l'indique va déclencher une action lié au click souris.    
+
     - Corrigez et relancer votre serveur et votre application web
     - Cliquez sur le bouton
 
     --> Que se passe t'il ?
 
-Il faut donc maintenant associer le traitement applicatif associé au click sans passer par le serveur web (sinon on serait sur une architecture web2.0). AngularJs est un framework puissant, décomposant les applications dans une approche MVC (Modèle / Vue / Contrôleur). La vue est constituée par la page html, le contrôleur angular est un objet qui va avoir la charge de gérer le modèle de données de la vue et les fonctions de traitement associées. Nous allons donc associer un contrôleur au bouton que vous venez de créer. Corriger votre bouton afin de lui affilier un controller. <button ng-click='coucou()' ng-controller='unController'>Clique moi</button>.
+Il faut donc maintenant associer le traitement applicatif associé au click sans passer par le serveur web (sinon on serait sur une architecture web2.0). AngularJs est un framework puissant, décomposant les applications dans une approche MVC (Modèle / Vue / Contrôleur). La vue est constituée par la page html, le contrôleur angular est un objet qui va avoir la charge de gérer le modèle de données de la vue et les fonctions de traitement associées. Nous allons donc associer un contrôleur au bouton que vous venez de créer. Corriger votre bouton afin de lui affilier un controller. `<button ng-click='coucou()' ng-controller='unController'>Clique moi</button>`.
 
-- Corriger et lancer, observer et regarder l'erreur générée.
+    - Corriger et lancer, observer et regarder l'erreur générée.
 
 Vous devez prendre conscience que l'architecture AngularJs est très souple. Vous pouvez associer un contrôler où vous le désirez, il sera valide à partir de sa balise de déclaration. Techniquement cela correspond à l'injection d'une fonction nommée dans le système qui devient utilisable aux sous-composants.
 
@@ -92,6 +94,7 @@ Le génie-logiciel d'une application full-stack web commence maintenant. Comment
 
 # Service bas niveau angular
 Afin de structures le code, angular propose dans le bas niveau des 'providers de service'. On peut rapidement indiquer ces fournisseur de services en 2 catégories :    
+
    - les fournisseurs qui aident à la structuration du code : Service, Factory et Constante. Ils permettent de regrouper des services communs pour les contrôleur. Un contrôler peut demander l'injection d'une Factory pour accéder à une fonction générique commune.
    - Les fournisseurs qui aident à l'intégration dans l'interface utilisateur : Filter, Directive, Component.
 
@@ -100,8 +103,8 @@ Nous allons prendre deux exemples dans ces fournisseurs de service. La factory e
 ## Déclaration d'une Factory pour les sous-requêtes web
 On va utiliser une factory pour mettre à disposition une fonction de requête sur le web. On utilise cette factory pour interroger notre site de référence et y récupérer des données.
 
-- Commencez par ajouter une route /test sur votre backend, qui retourne un simple document json. Relancez votre serveur web et testez que la route fonctionne.
-- Ajoutez la factory suivante à votre module.
+    - Commencez par ajouter une route /test sur votre backend, qui retourne un simple document json. Relancez votre serveur web et testez que la route fonctionne.
+    - Ajoutez la factory suivante à votre module.
 
     .factory('WebQuest', ['$http', function($http) {
       return {
@@ -113,13 +116,15 @@ On va utiliser une factory pour mettre à disposition une fonction de requête s
     }])
 
 Que fait-elle (beaucoup de choses à dire)...
-- Vous pouvez maintenant l'injecter dans votre controller et invoquer la fonction chercheCherche() quand vous le voulez.
+
+    - Vous pouvez maintenant l'injecter dans votre controller et invoquer la fonction chercheCherche() quand vous le voulez.
 
 
 Mais.... Bravo à nouveau !!!! vous venez de décloisonner votre application qui peut maintenant interroger votre serveur pour synchroniser vos données. Cette synchronisation se fait sans changement de page web (une révolution).
 
 ## Le Filter
 Le second fournisseur de service que nous allons écrire est le filter. Il permet de traiter un résultat afficher par un filtre. Ceci fonctionne de manière similaire au pipe '|' unix.
+
     ls | wc | xargs | cut -d ' ' -f 1 -> que fait cette commande ?
 
     .filter('reverse', function() {
@@ -146,9 +151,10 @@ Ces deux modification permettent de structurer l'application que vous développe
 Un composant angular, est un répertoire qui déclare la structure d'une balise html. Elle déclare donc le controleur et la vue associé à la directive.
 Remplacez la directive déclarant votre bouton par une nouvelle directive.
 
-<toto></toto> par exemple, et chargez dans la page index.html la déclaration de la directive avec l'instruction suivante :
-<script src='root/root.js'></script>
+`<toto></toto>` par exemple, et chargez dans la page index.html la déclaration de la directive avec l'instruction suivante :
+`<script src='root/root.js'></script>`
 Votre index.html, doit ressemble à cela :    
+
     <html>
       <body ng-app="BlankApp">
         <root></root>
@@ -178,18 +184,18 @@ https://github.com/angular-ui/ui-router/tree/legacy
 
 Le module externe ui-router, est un outil de gestion des routes locales à l'application. Tout comme il existe des routes pour accéder aux services Web distant en référence aux routes REST par exemple. Une application front angularjs, peut présenter des routes de navigation à l'utilisateur lorsqu'il change de page. AngularJS fourni un routeur de base de qualité médiocre. ui-router est un module avancé pour la gestion des routes angular.
 
-Avant d'utiliser ui-router, vous allez déclarer un nouveau composant simple coucou qui affiche un texte.
-- A partir de ce que vous savez du composant 'root', réalisez un composant 'toto' qui affiche 'foo'.
-- Testez ce composant en remplaçant l'appel à <root></root>, tout en conservant le reste, dans la page principale par <toto></toto> et vérifiez qu'il fonctionne.
+Avant d'utiliser ui-router, vous allez déclarer un nouveau composant simple coucou qui affiche un texte.    
+    - A partir de ce que vous savez du composant 'root', réalisez un composant 'toto' qui affiche 'foo'.
+    - Testez ce composant en remplaçant l'appel à <root></root>, tout en conservant le reste, dans la page principale par <toto></toto> et vérifiez qu'il fonctionne.
 
 Maintenant vous allez réaliser le routage entre root et toto
 
-- installer par npm le module ngular-ui-router@1.0.0-rc.1 --save
-    !! Attention à la version
-- chargez le script angular-ui-router dans le navigateur avec la balise suivante
-``<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>``
-- remplacez <toto></toto> dans votre document principal par la directive générique <ui-view></ui-view>. A partir de maintenant, votre ui-routeur peut remplacer ui-view, par un composant en fonction de la route choisie.
-- Déclarer la route suivante dans le fichier de description de l'application    
+    - installer par npm le module ngular-ui-router@1.0.0-rc.1 --save
+        !! Attention à la version
+    - chargez le script angular-ui-router dans le navigateur avec la balise suivante
+    ``<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>``
+    - remplacez <toto></toto> dans votre document principal par la directive générique <ui-view></ui-view>. A partir de maintenant, votre ui-routeur peut remplacer ui-view, par un composant en fonction de la route choisie.
+    - Déclarer la route suivante dans le fichier de description de l'application    
 
       angular.module('BlankApp', ['ui.router'])
       .config(function($stateProvider) {
