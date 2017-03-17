@@ -16,7 +16,7 @@ L'objectif de ce TP est de développer une application AngularJS minimale.
 # Avant de démarrer
 Vous devez savoir manipuler les grandes lignes de nodejs, avoir compris le mécanisme de programmation d'ordre supérieur et particulièrement de callback dans javascript. Vous devez également maitriser les requêtes http.
 
-Une application angularjs, est servie pas un serveur web. Lorsque l'utilisateur se connecte sur le site, il accède à une page d'accueil qui chargera tous les modules du framework angular, puis l'application utilisateur. La première étape consiste à mettre en place un serveur web simple qui va servir d'une part les fichiers du middleware angular et d'autre part l'application que vous allez développer.
+Une application angularjs est servie par un serveur web. Lorsque l'utilisateur se connecte sur le site, il accède à une page d'accueil qui chargera tous les modules du framework angular, puis l'application utilisateur. La première étape consiste à mettre en place un serveur web simple qui va servir d'une part les fichiers du middleware angular et d'autre part l'application que vous allez développer.
 
 Q1 pouvez-vous donner un définition comparative de framework, librairie, boite à outils ?
 
