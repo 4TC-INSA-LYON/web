@@ -72,10 +72,12 @@ Vous devez prendre conscience que l'architecture AngularJs est très souple. Vou
 Il faut maintenant déclarer le contrôleur dans votre déclaration d'application et déclarer la fonction coucou() dans ce dernier.
 Transformez la déclaration d'application (module.js) par l'appel suivant.
 
-    angular.module('BlankApp', [])
-    .controller('MonController', ['$scope',  function($scope) {
-      $scope.coucou = function() { console.log("Hello");}
-    }]);
+```javascript    
+angular.module('BlankApp', [])
+.controller('MonController', ['$scope',  function($scope) {
+  $scope.coucou = function() { console.log("Hello");}
+}]);
+```
 
 Que fait exactement l'appel à la fonction controller.
 Faisons un tour par les monades...
@@ -106,14 +108,16 @@ On va utiliser une factory pour mettre à disposition une fonction de requête s
     - Commencez par ajouter une route /test sur votre backend, qui retourne un simple document json. Relancez votre serveur web et testez que la route fonctionne.
     - Ajoutez la factory suivante à votre module.
 
-    .factory('WebQuest', ['$http', function($http) {
-      return {
-        chercheCherche: function() {
-          $http.get('http://localhost:3000/test')
-          .then(res => {console.log('-->', res)});
-        }
-      }
-    }])
+```javascript
+.factory('WebQuest', ['$http', function($http) {
+  return {
+    chercheCherche: function() {
+      $http.get('http://localhost:3000/test')
+      .then(res => {console.log('-->', res)});
+    }
+  }
+}])
+```
 
 Que fait-elle (beaucoup de choses à dire)...
 
@@ -125,22 +129,23 @@ Mais.... Bravo à nouveau !!!! vous venez de décloisonner votre application qui
 ## Le Filter
 Le second fournisseur de service que nous allons écrire est le filter. Il permet de traiter un résultat afficher par un filtre. Ceci fonctionne de manière similaire au pipe '|' unix.
 
-    ls | wc | xargs | cut -d ' ' -f 1 -> que fait cette commande ?
-
-    .filter('reverse', function() {
-      return function(input, uppercase) {
-        input = input || '';
-        var out = '';
-        for (var i = 0; i < input.length; i++) {
-          out = input.charAt(i) + out;
-        }
-        // conditional based on optional argument
-        if (uppercase) {
-          out = out.toUpperCase();
-        }
-        return out;
-      };
-    })
+    `ls | wc | xargs | cut -d ' ' -f 1` -> que fait cette commande ?
+```javascript
+.filter('reverse', function() {
+  return function(input, uppercase) {
+    input = input || '';
+    var out = '';
+    for (var i = 0; i < input.length; i++) {
+      out = input.charAt(i) + out;
+    }
+    // conditional based on optional argument
+    if (uppercase) {
+      out = out.toUpperCase();
+    }
+    return out;
+  };
+})
+```
 
 Appliquez ce filtre sur l'affichage du titre avec l'opérateur |.
 
@@ -154,27 +159,29 @@ Remplacez la directive déclarant votre bouton par une nouvelle directive.
 `<toto></toto>` par exemple, et chargez dans la page index.html la déclaration de la directive avec l'instruction suivante :
 `<script src='root/root.js'></script>`
 Votre index.html, doit ressemble à cela :    
-
-    <html>
-      <body ng-app="BlankApp">
-        <root></root>
-        <script src="/lib/angular/angular.min.js"></script>
-        <script src="modules.js"></script>
-        <script src="root/root.js"></script>
-      </body>
-    </html>
+```html
+<html>
+  <body ng-app="BlankApp">
+    <root></root>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="modules.js"></script>
+    <script src="root/root.js"></script>
+  </body>
+</html>
+```
 
 Voici la déclaration du fichier root/root.js
-
-      angular.module('BlankApp').component('root', {
-         templateUrl: 'root/root.html',
-         controller: ['$scope', 'WebQuest', function($scope, WebQuest) {
-           $scope.coucou = function() {
-             console.log("Hello");
-             WebQuest.call(); }
-           $scope.titre = "Bonjour maman";
-         }]
-      })
+```javascript
+angular.module('BlankApp').component('root', {
+   templateUrl: 'root/root.html',
+   controller: ['$scope', 'WebQuest', function($scope, WebQuest) {
+     $scope.coucou = function() {
+       console.log("Hello");
+       WebQuest.call(); }
+     $scope.titre = "Bonjour maman";
+   }]
+})
+```
 
 Rechargez votre client et controller que cela fonctionne comme avant.
 Qu'avez-vous fait ?
@@ -193,22 +200,24 @@ Maintenant vous allez réaliser le routage entre root et toto
     - installer par npm le module ngular-ui-router@1.0.0-rc.1 --save
         !! Attention à la version
     - chargez le script angular-ui-router dans le navigateur avec la balise suivante
-    ``<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>``
+    `<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>`
     - remplacez <toto></toto> dans votre document principal par la directive générique <ui-view></ui-view>. A partir de maintenant, votre ui-routeur peut remplacer ui-view, par un composant en fonction de la route choisie.
     - Déclarer la route suivante dans le fichier de description de l'application    
 
-      angular.module('BlankApp', ['ui.router'])
-      .config(function($stateProvider) {
-        $stateProvider
-        .state(
-          'home'
-        ,
-          {
-            url: '/',
-            component: 'root'
-          }
-        )
-      })
+```javascript
+angular.module('BlankApp', ['ui.router'])
+.config(function($stateProvider) {
+  $stateProvider
+  .state(
+    'home'
+  ,
+    {
+      url: '/',
+      component: 'root'
+    }
+  )
+})
+```
 
 - Cherchez la page localhost:3000/#!/.
 
