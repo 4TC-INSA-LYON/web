@@ -225,8 +225,8 @@ Si la page s'affiche normalement, vous pouvez maintenant déclarer une nouvelle 
 1) Ajouter la route et testez l'état
 2) Ajouter un parametre de la directive ui-sref qui pointe vers le nouvel etat dans un bouton de la page root.html
 
-
----- Si vous êtes arrivez-là et que vous avez tout compris, vous avez le niveau pour comprendre angularjs.
+----
+Si vous êtes arrivez-là et que vous avez tout compris, vous avez le niveau pour comprendre angularjs.
 
 Vous pouvez maintenant partir sur les interfaces graphiques comme material-design  et utiliser le module angular-material pour avoir accès à des outils d'interface graphique avancée.   https://material.angularjs.org/latest/
 
