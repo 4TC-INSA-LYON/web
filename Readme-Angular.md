@@ -225,9 +225,13 @@ Si la page s'affiche normalement, vous pouvez maintenant déclarer une nouvelle 
 1) Ajouter la route et testez l'état
 2) Ajouter un parametre de la directive ui-sref qui pointe vers le nouvel etat dans un bouton de la page root.html
 
-----
+----   
 Si vous êtes arrivez-là et que vous avez tout compris, vous avez le niveau pour comprendre angularjs.
 
 Vous pouvez maintenant partir sur les interfaces graphiques comme material-design  et utiliser le module angular-material pour avoir accès à des outils d'interface graphique avancée.   https://material.angularjs.org/latest/
 
 Vous pouvez également courir apprendre typeScript et basculer soit sur Angular 2, soit sur ReactJS qui sont les versions suivantes de ces architectures. Elles apportent une simplification pour le programmeur et une vision encore plus applicative d'une application sur le client Web. Mais si vous avez compris cette série de td/tp sur Javascript vous êtes capable de développer des applications très hautes performances pour le Web.
+
+
+----
+Pour aller plus loin    https://hackernoon.com/angular-vs-react-the-deal-breaker-7d76c04496bc#.qv6ov83cb
