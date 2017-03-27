@@ -10,11 +10,13 @@ L'objectif de ce TD est de lancer rapidement une application nodeJS de type serv
 L'installation se fera dans le répertoire /tmp, qui normalement a suffisamment de place. Tout se fait en ligne de commande, car c'est comme cela qu'on comprend ce qui se passe...
 Quand la machine redémarrera toutes vos données seront perdues.
 
+```bash
     cd /tmp
     wget https://nodejs.org/dist/v6.10.0/node-v6.10.0-linux-x64.tar.gz
     tar zxvf node-v6.10.0-linux-x64.tar.gz
 
-    (wget https://nodejs.org/dist/v6.10.0/node-v6.10.0-darwin-x64.tar.gz s'il y a des macs dans la salle)
+    #(wget https://nodejs.org/dist/v6.10.0/node-v6.10.0-darwin-x64.tar.gz s'il y a des macs dans la salle)
+```
 
 - Ajoutez le répertoire bin dans votre PATH, afin de pouvoir lancer toutes les commandes du répertoire bin.
 - Listez les fichiers dans le répertoire bin, et testez les.
@@ -45,11 +47,13 @@ Combien de lignes de code vous faut-il ?
 Crééz une app pour gérer la route '/' et exécuter une fonction basique du style : res.send("Hello World")
 
 Testez un retour d'erreur...
-res.status(400).send("Erreur de page")
+```javascript
+res.status(400).send("Erreur de page")  
+```
 
-Testez dans votre navigateur.
+Testez dans votre navigateur.  
 
-https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
+https://fr.wikipedia.org/wiki/Liste\_des\_codes\_HTTP
 
 # Intégration dans l'interrogation mongo
 ## Importez la base test dans le fichier dump.tgz fournie
@@ -68,7 +72,7 @@ Utiliser le code de test et vérifier qu'il fonctionne
 Q5 : Que pouvez-vous dire de ce code ?
 
 ## Ajout d'une route POST
-Décommentez la ligne post du client de test, puis ajoutez la route associée.
+Décommentez la ligne post du client de test, puis ajoutez la route associée. Vous devrez certainement utiliser le module npm `body-parser`, qui vous permet de générer automatiquement un json à partir de la requête http.
 
 ## Ajout d'une route de récupération d'un projet spécifique
 Décommentez le dernier appel dans le code de test
@@ -83,16 +87,18 @@ Entre le déclenchement de la route et son retour final, il est possible d'inter
 
 Q8 : Injectez le middleware suivant dans la route /project/:id, afin d'injecter le projet avant de renvoyer la réponse au client.
 
-    injectUser = function(req, res, next) {
-      projectCollection.findOne({"_id": new mongo.ObjectID(req.params.id)}, function(err, result) {
-        if (err || result === null) {
-          return res.status(404).send("Pas d'utilisateur");
-        } else {
-          req.user = result;
-          next();
-        }
-      });
+```javascript
+injectUser = function(req, res, next) {
+  projectCollection.findOne({"_id": new mongo.ObjectID(req.params.id)}, function(err, result) {
+    if (err || result === null) {
+      return res.status(404).send("Pas d'utilisateur");
+    } else {
+      req.user = result;
+      next();
     }
+  });
+}
+```
 
 Q9 : Injecter un middleware qui comptabilise le nombre d'accès à un projet particulier et qui incrémente automatiquement un compteur dans la collection mongo correspondante.
 
@@ -102,7 +108,12 @@ Q10 : Transformez le middleware injectUser, par un middleware paramétré selon 
 GET '/project/:projectId'
 
 En guide, voici la signature du middleware paramétré correspondant :
-app.param 'formationId', function (req, res, next, formationId) {...}
+
+```javascript
+app.param('formationId',
+ function (req, res, next, formationId) {...}
+)
+```
 
 ## Wrap up final
 A la fin de cette séance, vous devez savoir :

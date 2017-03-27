@@ -234,4 +234,5 @@ Vous pouvez également courir apprendre typeScript et basculer soit sur Angular 
 
 
 ----
-Pour aller plus loin    https://hackernoon.com/angular-vs-react-the-deal-breaker-7d76c04496bc#.qv6ov83cb
+Pour aller plus loin  
+https://hackernoon.com/angular-vs-react-the-deal-breaker-7d76c04496bc#.qv6ov83cb
