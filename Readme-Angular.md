@@ -236,3 +236,5 @@ Vous pouvez également courir apprendre typeScript et basculer soit sur Angular 
 ----
 Pour aller plus loin  
 https://hackernoon.com/angular-vs-react-the-deal-breaker-7d76c04496bc#.qv6ov83cb
+
+https://hackernoon.com/100-free-resources-to-learn-full-stack-web-development-5b40e0bdf5f2

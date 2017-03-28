@@ -35,18 +35,20 @@ Réalisez une série de commande sous node, pour bien vérifier que vous maitris
 Q2 : Avez-vous des questions ? (cf. NaNaNaNaNWatmannnn)
 
 # Lancement initial
+`npm install express`
 
-     npm install express
-
-Ecrire le code le plus simple pour envoyer une page web statique sur le port 3000.
+# Créez l'application simple de base suivante
+Crééz une app pour gérer la route '/' et exécuter une fonction basique du style res.send("Hello World")
+```javascript
+var express = require('express');
+var app = express();
+app.use('/', function (req, res) {
+ return res.send("Hello World");
+});
+```
 - Testez le avec un client web.
 
-Combien de lignes de code vous faut-il ?
-
-# Fabrication d'une fonction de retour ok et erreur
-Crééz une app pour gérer la route '/' et exécuter une fonction basique du style : res.send("Hello World")
-
-Testez un retour d'erreur...
+#Testez un retour d'erreur
 ```javascript
 res.status(400).send("Erreur de page")  
 ```
@@ -55,8 +57,18 @@ Testez dans votre navigateur.
 
 https://fr.wikipedia.org/wiki/Liste\_des\_codes\_HTTP
 
+# Ecrire le code pour retourner une page web statique sur le port 3000.
+On utilise le module static d'express.
+Vous devez avoir compris le renommage des répertoires du Web.
+
 # Intégration dans l'interrogation mongo
-## Importez la base test dans le fichier dump.tgz fournie
+## Importez la base test dans le fichier dump.tgz fournie avec les commandes suivante
+```bash
+cd /tmp
+tar zxvf <xxx>/dump.tgz
+mongorestore --noIndexRestore --drop dump/
+```
+
 Vérifiez que vous savez interroger la collection 'users' de la base test
 Pour la mise en forme vous pouvez utiliser le module npm json
 
