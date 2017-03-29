@@ -23,13 +23,13 @@ mongoclient.connect('mongodb://localhost/test', function(err, db) {
     });
   });
 
-  //app.post('/user', function(req, res) {
-  //  console.log("-->", req.body);
-  //  userCollection.insertMany([req.body], function (err, result) {
-  //    if (err) { throw err; }
-  //    res.send("ok");
-  //  });
-  //});
+  app.post('/user', function(req, res) {
+    console.log("-->", req.body);
+    userCollection.insertMany([req.body], function (err, result) {
+      if (err) { throw err; }
+      res.send("ok");
+    });
+  });
 
   // app.get('/project/:id', function(req, res) {
   //   projectCollection.findOne({"_id": new mongo.ObjectID(req.params.id)}, function(err, result) {

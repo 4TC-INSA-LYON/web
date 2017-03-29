@@ -86,6 +86,8 @@ Q5 : Que pouvez-vous dire de ce code ?
 ## Ajout d'une route POST
 Décommentez la ligne post du client de test, puis ajoutez la route associée. Vous devrez certainement utiliser le module npm `body-parser`, qui vous permet de générer automatiquement un json à partir de la requête http.
 
+Vous pouvez également tester avec la commande `curl -XPOST localhost:3000/user -d '{"name":"toto"}' --header "Content-Type:application/json"`
+
 ## Ajout d'une route de récupération d'un projet spécifique
 Décommentez le dernier appel dans le code de test
 Q6 : Ajoutez dans le test le test de la route suivante
