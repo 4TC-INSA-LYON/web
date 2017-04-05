@@ -74,7 +74,7 @@ Transformez la déclaration d'application (module.js) par l'appel suivant.
 
 ```javascript    
 angular.module('BlankApp', [])
-.controller('MonController', ['$scope',  function($scope) {
+.controller('unController', ['$scope',  function($scope) {
   $scope.coucou = function() { console.log("Hello");}
 }]);
 ```
