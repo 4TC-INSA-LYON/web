@@ -50,8 +50,8 @@ Angular est donc un framework web installé dans le navigateur lorsqu'on accède
 Maintenant que la librairie est chargée sans erreur dans votre navigateur, vous pouvez déclarer une nouvelle application angularJS dans votre environnement. Une application est constituée d'un ensemble de modules. Le module principal décrit votre application. Chaque module doit être chargé explicitement par votre navigateur. Il y a plusieurs manière de faire. Nous proposons l'approche suivante :
 
     - Déclarez dans votre page html l'utilisation du module BlankApp avec l'instruction suivante : <body ng-app="BlankApp">...
-    - Créez un fichier modules.js dans votre front, qui déclare une application 'BlankApp'. La déclaration d'une application est décrit ici. https://docs.angularjs.org/api/ng/function/angular.module
-    - Pensez à charger le fichier module.js dans votre front.
+    - Créez un fichier module.js dans votre repertoire `front`, qui déclare une application 'BlankApp'. La déclaration d'une application est décrit ici. https://docs.angularjs.org/api/ng/function/angular.module
+    - Pensez à charger le fichier module.js dans votre front (le charger dans votre `index.html`).
 
 Chargez votre application. Celle-ci ne fait rien pour l'instant, mais vous devez constater le chargement de tous les modules.
 
@@ -76,7 +76,7 @@ Transformez la déclaration d'application (module.js) par l'appel suivant.
 
 ```javascript    
 angular.module('BlankApp', [])
-.controller('MonController', ['$scope',  function($scope) {
+.controller('unController', ['$scope',  function($scope) {
   $scope.coucou = function() { console.log("Hello");}
 }]);
 ```
@@ -171,8 +171,9 @@ Votre index.html, doit ressemble à cela :
   </body>
 </html>
 ```
+Placez la directive de déclaration de votre bouton dans un fichier `root.html`et placez le dans le dossier `/front/root/`.
 
-Voici la déclaration du fichier root/root.js
+Et voici la déclaration du fichier root/root.js
 ```javascript
 angular.module('BlankApp').component('root', {
    templateUrl: 'root/root.html',
