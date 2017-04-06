@@ -169,8 +169,9 @@ Votre index.html, doit ressemble à cela :
   </body>
 </html>
 ```
+Placez la directive de déclaration de votre bouton dans un fichier `root.html`et placez le dans le dossier `/front/root/`.
 
-Voici la déclaration du fichier root/root.js
+Et voici la déclaration du fichier root/root.js
 ```javascript
 angular.module('BlankApp').component('root', {
    templateUrl: 'root/root.html',
