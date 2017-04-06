@@ -1,5 +1,7 @@
 Ce sujet de forme TP est le dernier volet de la série comprendre le Web. NodeJs est la première brique des applications dites RealTime javascript. Ce sont des applications qui cherchent à fournir des données aux utilisateurs et réagir dans le temps le plus court. C'est le besoin exprimé par des applications comme Facebook, Twitter mais aussi Paypal, Linkedin ou Netflix. Sans ces approches ultra performantes, les utilisateurs ne sont pas suffisamment satisfaits. Nous avons vu qu'une gamme d'approches récentes, depuis 2010, repose sur la mise en oeuvre de bases de données dites NoSQl, et de moteur de serveur Web haute performance comme NodeJS ou NGinx. La dernière étape dans cette révolution concerne l'interface utilisateur et l'interactivité.
 
+![Learning curve d'AngularJS](http://www.bennadel.com/resources/uploads/2013/feelings_about_angularjs_over_time.png "Angular Learning Curve")
+
 On peut distinguer trois dates majeures dans l'évolution des interface navigateur.
 
 - Le Web2.0 2000-2006 repose sur des formulaires de saisie, qui sont analysés sur le poste client puis transmis sur un serveur par une requête http,
