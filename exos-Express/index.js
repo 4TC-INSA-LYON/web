@@ -16,21 +16,21 @@ mongoclient.connect('mongodb://localhost/test', function(err, db) {
   userCollection = db.collection('users');
   projectCollection = db.collection('projects');
 
-  app.get('/user', function(req, res){
-    userCollection.find().toArray(function(err, etudiants) {
-      if (err) { throw err; }
-      res.send(etudiants);
-    });
-  });
-
-  app.post('/user', function(req, res) {
-    console.log("-->", req.body);
-    userCollection.insertMany([req.body], function (err, result) {
-      if (err) { throw err; }
-      res.send("ok");
-    });
-  });
-
+  // app.get('/user', function(req, res){
+  //   userCollection.find().toArray(function(err, etudiants) {
+  //     if (err) { throw err; }
+  //     res.send(etudiants);
+  //   });
+  // });
+  //
+  // app.post('/user', function(req, res) {
+  //   console.log("-->", req.body);
+  //   userCollection.insertMany([req.body], function (err, result) {
+  //     if (err) { throw err; }
+  //     res.send("ok");
+  //   });
+  // });
+  //
   // app.get('/project/:id', function(req, res) {
   //   projectCollection.findOne({"_id": new mongo.ObjectID(req.params.id)}, function(err, result) {
   //     if (err) {throw err;}
@@ -38,20 +38,20 @@ mongoclient.connect('mongodb://localhost/test', function(err, db) {
   //   });
   // });
 
-  injectUser = function(req, res, next) {
-    projectCollection.findOne({"_id": new mongo.ObjectID(req.params.id)}, function(err, result) {
-      if (err || result === null) {
-        return res.status(404).send("Pas d'utilisateur");
-      } else {
-        req.user = result;
-        next();
-      }
-    });
-  }
+  //injectUser = function(req, res, next) {
+  //  projectCollection.findOne({"_id": new mongo.ObjectID(req.params.id)}, function(err, result) {
+  //    if (err || result === null) {
+  //      return res.status(404).send("Pas d'utilisateur");
+  //    } else {
+  //      req.user = result;
+  //      next();
+  //    }
+  //  });
+  //}
 
-  app.get('/project/:id', injectUser, function(req, res) {
-    res.send(req.user);
-  });
+  //app.get('/project/:id', injectUser, function(req, res) {
+  //  res.send(req.user);
+  //});
 
   //app.use('/', function (req, res) {
   //  return res.send("Hello World");
