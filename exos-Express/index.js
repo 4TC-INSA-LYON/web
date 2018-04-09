@@ -16,12 +16,12 @@ mongoclient.connect('mongodb://localhost/test', function(err, db) {
   userCollection = db.collection('users');
   projectCollection = db.collection('projects');
 
-  // app.get('/user', function(req, res){
-  //   userCollection.find().toArray(function(err, etudiants) {
-  //     if (err) { throw err; }
-  //     res.send(etudiants);
-  //   });
-  // });
+  app.get('/user', function(req, res){
+     userCollection.find().toArray(function(err, etudiants) {
+       if (err) { throw err; }
+       res.send(etudiants);
+     });
+   });
   //
   // app.post('/user', function(req, res) {
   //   console.log("-->", req.body);
