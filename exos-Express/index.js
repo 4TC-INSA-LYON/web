@@ -11,8 +11,9 @@ mongo = require('mongodb');
 mongoclient = mongo.MongoClient;
 app.use(bodyParser.json())
 
-mongoclient.connect('mongodb://localhost/test', function(err, db) {
+mongoclient.connect('mongodb://localhost/test', function(err, client) {
   if (err) { throw err; }
+  db = client.db('test');
   userCollection = db.collection('users');
   projectCollection = db.collection('projects');
 
