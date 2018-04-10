@@ -22,7 +22,7 @@ Une application angularjs, est servie pas un serveur web. Lorsque l'utilisateur 
 
 Q1 pouvez-vous donner un définition comparative de framework, librairie, boite à outils ?
 
-# Préparation du backoffice
+# Préparation du backoffice 20min
 On repart des tp précédents. Voici la liste des instructions pour démarrer votre backoffice.
 
 1. Préparer votre moteur de base de données avec vos données
@@ -69,9 +69,9 @@ Allez à la racine de votre projet
 cd /tmp/projet
 ```
 
-Vous allez commencer par créer un environnement angular. Pour cela angular fournit maintenant un cli pour manipuler l'environnement.
+ Angular fournit maintenant un CLI pour manipuler l'environnement. Vous allez commencer par créer un espace pour votre application.
 
-Installation du cli angular
+Installation du CLI angular
 ```bash
 npm install -g @angular/cli
 ```
@@ -81,14 +81,14 @@ Préparation d'un environnement minimal pour votre application
 ng new tpweb
 ```
 
-Une fois votre environnement créer, votre première application Angular peut être lancée.
+Une fois votre environnement créé, votre première application Angular peut être lancée.
 ```bash
 cd tpweb
 ng serve --open
 ```
 
 # Modification d'une valeur affichée
-Si tout se passe bien, vous voyez une page d'accueil sans avoir écrit une seule ligne de code. Angular propose une approche à composants pour architecturer des applications dans le navigateur. Lorsque vous démarrer un nouveau projet le composant initial est dans le répertoire `src/app`.
+Si tout se passe bien, vous voyez une page d'accueil sans avoir écrit une seule ligne de code. Angular propose une approche à composants pour architecturer des applications dans le navigateur. Lorsque vous démarrez un nouveau projet le composant initial est dans le répertoire `src/app`.
 
 Modifiez le fichier `app.compent.ts` pour adapter l'attribut `title` sur une autre valeur texte.
 
@@ -99,16 +99,16 @@ Le cli angular vous permet d'ajouter facilement un composant dans votre applicat
 
 `ng generate component etudiants`.
 Observez les fichiers créés après cet appel. De quoi est constitué un composant javascript ?
-Une valeur importante à connaitre est l'attribut `selector` du fichier de description du composant. Cet attribut indique le nom du composant pour le référencer dans les pages html qui veulent l'insérer.
+Une valeur importante à connaitre est l'attribut `selector` du fichier de description du composant. Cet attribut indique le nom du composant pour pouvoir le nommer dans les pages html qui veulent l'insérer.
 
     Modifiez la page principale pour afficher
     le composant étudiants.
 
-    Pour afficher un composant, il suffit d'appeler son selecteur.
+    Pour afficher un composant, il suffit d'appeler son _selecteur_.
        <app-xxx></app-xxx>
 
 # Afficher une donnée issue du composant
-En vous inspirant de l'affichage du titre `{{app}}` ajoutez une valeur dans le fichier `etudiants.component.ts` et utilisez-là dans le fichier `etudiants.component.html'.
+En vous inspirant de l'affichage du titre `{{app}}` ajoutez une valeur de type _string_ dans le fichier `etudiants.component.ts` et utilisez-là dans le fichier `etudiants.component.html`.
 
 # Déclaration d'une structure
 Votre étudiant est certainement plus complexe. Il a un nom, un identifiant, etc.
@@ -121,11 +121,20 @@ etudiant = {
 }
 ```
 
+Essayez maintenant d'afficher les éléments de cette structure.
+
 # Vous pouvez filtrer l'affichage
 Que se passe t'il si vous faites {{etudiant.nom | uppercase}}`
 
+Le `|` est un outil bien connu des Unixiens. Il permet d'enchaîner des traitements de manipulation d'une sortie vers une entrée.
+
+`ls | wc | xargs | cut -d ' ' -f 1`
+-> que fait cette commande ?
+
+Dans le cas d'angular un ensemble de filtre est fourni par défaut pour traiter les affichages : dates, nombres, chaînes.
+
 # Liaison dans les deux sens
-Pour l'instant vous êtes capables de définir une variable dans un script (typescript ici) qui est utilisé dans l'interface utilisateur avec l'opérateur `{{ }}` (encore appelé moustache moustache !!). Il faut maintenant également pouvoir récupérer une donnée saisie dans l'interface html qui mette à jour la variable interne.
+Pour l'instant vous êtes capables de définir une variable dans un script, ici `typescript`, qui est utilisé dans l'interface utilisateur avec l'opérateur `{{ }}`, appelé _moustache moustache_ !!. Il faut maintenant également pouvoir récupérer une donnée saisie dans l'interface web qui mette à jour la variable interne.
 
 Avant de pouvoir l'utiliser dans votre code, il faut indiquer au framework que vous allez utiliser le module de gestion de formulaires. Vous devez ajouter dans le fichier `app.modules.ts` les deux instructions suivantes pour importer `FormsModule`.
 
@@ -149,11 +158,12 @@ Vous pouvez maintenant ajouter une zone de saisie à la suite de l'affichage du 
 </div>
 ```
 
+Vous pouvez vérifier que la saisie fonctionne, car l'affichage de la donnée se fait juste au dessus. Nous sommes bien sur une liaison de données qui va dans les deux sens. IHM -> Code -> IHM. Ceci s'appelle le _two way binding_.
+
 # Passons à une liste d'étudiants
-Nous allons simuler une liste d'étudiants en remplaçant l'étudiant par la liste suivante. Pour des questions de simplification du code pour la suite, je vous suggère de 'sortir' la liste du composant. Vous devriez avoir le code suivant.
+Nous allons simuler une liste d'étudiants en remplaçant l'étudiant par une liste. Pour des questions de simplification du code pour la suite, je vous suggère de 'sortir' la liste du composant. Vous devriez avoir le code suivant.
 
-
-```javascript
+```ts
 import { Component, OnInit } from '@angular/core';
 
 let ETUDIANTS = [
@@ -184,9 +194,9 @@ La visualisation des éléments de cette liste peut se faire en utilisant la dir
 
 Elle s'utilise dans des constructions de type `<ul><li>...<li></ul>`
 
-Vous pouvez maintenant afficher la liste des étudiants.
+Vous pouvez maintenant afficher la liste des étudiants. Mais attention...
 
-```javascript
+```html
 <h2>Mes étudiants</h2>
 <ul>
   <li *ngFor='let etudiant of etudiants'>
@@ -195,8 +205,10 @@ Vous pouvez maintenant afficher la liste des étudiants.
 </ul>
 ```
 
+L'affichage de la liste ne s'effectue pas bien, car il n'y a pas d'étudiant unique à afficher. Corrigez le code pour ne pas avoir d'erreur.
+
 # Action sur un click
-La dernière chose à gérer au niveau de l'interface utilisateur est le click sur un élément de la liste. Pour cela, vous allez utiliser la liaison sur l'événement click sur la balise `<li>`. La forme de cette action est la suivante : `<li *ngFor='let etudiant of etudiants' (click)='onSelect(etudiant)'>`. Dans cette expression le click invoquera la méthode onSelect de votre code.
+La dernière chose à gérer au niveau de l'interface utilisateur est le _click_ sur un élément de la liste. Pour cela, vous allez utiliser la liaison sur l'événement _click_ sur la balise `<li>`. La forme de cette action est la suivante : `<li *ngFor='let etudiant of etudiants' (click)='onSelect(etudiant)'>`. Dans cette expression le _click_ invoquera la méthode `onSelect` de votre code.
 Lorsque vous cliquez sur un élément de la liste une action est alors générée dans le code.
 
 # Affichage conditionnel
@@ -211,7 +223,7 @@ Votre code html devrait ressembler à cela.
   </li>
 </ul>
 
-<div *ngIf='lEtudiant'>
+<div *ngIf='lEtudiant'> <!-- la div n'est pas dans le DOM -->
   {{lEtudiant.nom | uppercase}}
   <div>
       <label>nom:
@@ -221,10 +233,10 @@ Votre code html devrait ressembler à cela.
 </div>
 ```
 
-//Vous êtes arrivé à la v0 de votre code
+**Vous êtes arrivé à la v0 de votre code**
 
 # Création d'un sous-composant
-Dans les approches à composants, un des objectifs est de décomposer le plus possible les éléments en sous-composants. Dans notre cas, la liste des étudiants et un étudiant unitaire peuvent être séparés. Quand on sépare des éléments, le seul éléments à garder en tête est l'échange d'information entre les deux composants père et fils.
+Dans les approches à composants, un des objectifs est de décomposer le plus possible les éléments en sous-composants. Dans notre cas, la liste des étudiants peut être séparée d'un étudiant unitaire. Quand on sépare des éléments, le seul point dur à garder en tête est l'échange d'information entre les deux composants père et fils.
 
 Voici les étapes pour obtenir le code décomposé.
 
@@ -238,7 +250,7 @@ Du coté du parent, il faut indiquer la variable transmise selon la syntaxe suiv
 
 ```html
 <selecteur [variableDansLeFils]='variableDansLePere'></selecteur>
-<app-detail-etudiant [lEtudiant]='lEtudiant'></app-detail>
+<app-detail-etudiant [lEtudiant]='lEtudiant'></app-detail-etudiant>
 ```
 Si vous faites cela uniquement, vous obtiendrez une erreur, car le composant fils ne sait pas quoi faire de cette valeur transmise. Il faut explicitement lui déclarer la récupération de cette variable. Cela se fait par l'utilisation d'un décorateur `Input` dans la déclaration du composant.
 
@@ -259,7 +271,7 @@ export class EtudiantDetailComponent implements OnInit {
 ```
 
 # Création d'un service de données
-Dans cette partie nous verrons qu'Angular ne sert pas qu'à créer des composants. Vous avez vu qu'il existe des filtres (sisi, c'est avant). Vous pouvez également créer des services. Un service est un objet javascript qui est 'injecté' dans les composants que vous voulez. Par exemple, on bon design est de grouper les services d'accès aux données dans des services angular.
+Dans cette partie nous verrons qu'Angular ne sert pas qu'à créer des composants. Vous avez vu qu'il existe des filtres (sisi, c'est avant). Vous pouvez également créer des services. Un service est un objet javascript qui est 'injecté' dans les composants que vous voulez. Par exemple, une bonne conception est de grouper les services d'accès aux données dans des services angular.
 
 1. Création du pattern de service initial
 `ng generate service etudiants`
@@ -272,6 +284,7 @@ Angular repose sur le principe d'injection de dépendances. Par exemple, vous po
 `providers: [EtudiantsService],...`. Attention, il peut y avoir beaucoup d'erreur de syntaxe. Vérifiez que le service est bien injecté, en vérifiant que la console ne sort pas d'erreur.
 
 3. Préparons le service
+
 Votre service d'Etudiants doit ressembler à cela.
 ```ts
 import { Injectable } from '@angular/core';
@@ -328,17 +341,17 @@ export class EtudiantsComponent implements OnInit {
 Où est injecté le service ?
 Quel appel utilise le service ?
 
-Normalement à cette étape vous devriez avoir le même fonctionnement que précédemment. Vous êtes à la v1 (cf github) du logiciel :
-  - l'approche à composants est bonne
-  - Vous avez 2 composants et 1 service
-  - Vous savez définir un composant et l'accrocher aux autres
+Normalement à cette étape vous devriez avoir le même fonctionnement que précédemment. ** Vous êtes à la v1 (cf github) du logiciel.**
+  - l'approche à composants est bonne.
+  - Vous avez 2 composants et 1 service.
+  - Vous savez définir un composant et l'accrocher aux autres.
   - Vous savez définir un service et l'injecter dans le système.
 
 Il vous manque encore l'accès à un système extérieur asynchrone comme un site web.
 
 
 # Observable et programmation asynchrone
-L'appel à la fonction getEtudiants du service Etudiants est synchrone. Cela fonctionne pour les tests, mais n'est pas viable dans un environnement réel. Vous devez modifier votre utilisation du service pour qu'il devienne asychrone. Pour ceci, vous pouvez passer par des callback, des promesses ou des objets Observables. Dans notre exemple de code, nous allons passer par des observables qui font partie d'une des approches standards de la programmation réactivejs. http://reactivex.io/rxjs/
+L'appel à la fonction `getEtudiants` du service `Etudiants` est synchrone. Cela fonctionne pour les tests, mais n'est pas viable dans un environnement réel. Vous devez modifier votre utilisation du service pour qu'il devienne asychrone. Pour ceci, vous pouvez passer par des _callbacks_, des _promesses_ ou des objets _Observables_. Dans notre exemple de code, nous allons passer par des observables qui font partie d'une des approches standards de la programmation reactive. http://reactivex.io/rxjs/
 
 1. Dans votre service, vous allez renvoyer un observable en ajoutant les appels suivants.
 ```ts
@@ -354,7 +367,7 @@ import { of } from 'rxjs/observable/of'
 }
 ```
 
-2. Un observable ressemble à une promesse. Il s'agit d'un objet qui dans le future possèdera une valeur à observer. Pour en être notifier, il faut s'y abonner. Remplacez dans l'invocation du service, l'utilisation de cette objet Observable avec le code suivant.
+2. Un observable ressemble à une promesse. Il s'agit d'un objet qui dans le futur possèdera une valeur à observer. Pour en être notifié, il faut s'y abonner. Remplacez dans l'invocation du service, l'utilisation de cette objet Observable avec le code suivant.
 
 ```javascript
 getEtudiants() {
@@ -366,15 +379,15 @@ getEtudiants() {
 Normalement vous devriez faire un parallèle simple avec la notion de promesse.
 
 Vérifiez bien que votre application fonctionne toujours.
-Vous êtes à la v2.
+** Vous en êtes à la v2. **
 
 # Intégration au serveur de données
 Vous vous souvenez qu'un serveur tourne ? Pouvez-vous vérifier qu'il fonctionne encore ? Vous allez maintenant, récupérer la liste des étudiants à partir de la base de données de test. Pour cela vous allez injecter le service HttpClientModule dans le système, l'utiliser à partir du service Etudiants et ce sera fini.
 
 1. Déclaration de l'utilisation du service HttpClientModule
-- Dans le fichier de déclaration de l'application `AppModule`.
-- Importez le symbole `HttpClientModule` issu du fichier `@angular/common/http`
-- Ajoutez le symbole dans le tableau `@NgModule.imports`
+- Dans le fichier de déclaration de l'application `AppModule` :
+- Importez le symbole `HttpClientModule` issu du fichier `@angular/common/http`.
+- Ajoutez le symbole dans le tableau `@NgModule.imports`.
 
 Vérifiez que votre application compile toujours.
 
@@ -404,8 +417,10 @@ Quels sont les points de bugs recontrés ?
 
 Vous avez fini la v3 également disponible en ligne. Normalement vous avez une chaine MEAN de bout en bout.
 
---
+----
+
 Ce que je n'ai pas dit.
+- Mécanique de test unitaires et E2E
 - Routage d'interface
 - Service, pipe, filter, composant : il existe quelques autres services dans angular.
 - TypeScript, typage...
