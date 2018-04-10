@@ -328,7 +328,7 @@ export class EtudiantsComponent implements OnInit {
 Où est injecté le service ?
 Quel appel utilise le service ?
 
-Normalement à cette étape vous devriez avoir le même fonctionnement que précédemment. Vous êtes à la v1 (cf github) du logiciel : 
+Normalement à cette étape vous devriez avoir le même fonctionnement que précédemment. Vous êtes à la v1 (cf github) du logiciel :
   - l'approche à composants est bonne
   - Vous avez 2 composants et 1 service
   - Vous savez définir un composant et l'accrocher aux autres
@@ -337,21 +337,78 @@ Normalement à cette étape vous devriez avoir le même fonctionnement que préc
 Il vous manque encore l'accès à un système extérieur asynchrone comme un site web.
 
 
+# Observable et programmation asynchrone
+L'appel à la fonction getEtudiants du service Etudiants est synchrone. Cela fonctionne pour les tests, mais n'est pas viable dans un environnement réel. Vous devez modifier votre utilisation du service pour qu'il devienne asychrone. Pour ceci, vous pouvez passer par des callback, des promesses ou des objets Observables. Dans notre exemple de code, nous allons passer par des observables qui font partie d'une des approches standards de la programmation réactivejs. http://reactivex.io/rxjs/
+
+1. Dans votre service, vous allez renvoyer un observable en ajoutant les appels suivants.
+```ts
+import { of } from 'rxjs/observable/of'
+...
+  getEtudiants() {
+    return of([
+      { id: 11, nom: 'Mr. Nice' },
+      ...
+      ]);
+  }
+  ...
+}
+```
+
+2. Un observable ressemble à une promesse. Il s'agit d'un objet qui dans le future possèdera une valeur à observer. Pour en être notifier, il faut s'y abonner. Remplacez dans l'invocation du service, l'utilisation de cette objet Observable avec le code suivant.
+
+```javascript
+getEtudiants() {
+  this.etudiantsService.getEtudiants()
+    .subscribe(etudiants => this.etudiants = etudiants)
+}
+```
+
+Normalement vous devriez faire un parallèle simple avec la notion de promesse.
+
+Vérifiez bien que votre application fonctionne toujours.
+Vous êtes à la v2.
+
+# Intégration au serveur de données
+Vous vous souvenez qu'un serveur tourne ? Pouvez-vous vérifier qu'il fonctionne encore ? Vous allez maintenant, récupérer la liste des étudiants à partir de la base de données de test. Pour cela vous allez injecter le service HttpClientModule dans le système, l'utiliser à partir du service Etudiants et ce sera fini.
+
+1. Déclaration de l'utilisation du service HttpClientModule
+- Dans le fichier de déclaration de l'application `AppModule`.
+- Importez le symbole `HttpClientModule` issu du fichier `@angular/common/http`
+- Ajoutez le symbole dans le tableau `@NgModule.imports`
+
+Vérifiez que votre application compile toujours.
+
+2. Dans le code du service d'accès aux étudiants, il faut
+- Injecter le service angular httpClient
+- Utiliser la fonction get, qui fabriquera l'Observable
+Le code de `etudiants.service.ts` ressemble à :
+
+```ts
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs/observable/of'
+import { HttpClient } from '@angular/common/http';
+
+@Injectable()
+export class EtudiantsService {
+
+  getEtudiants() {
+    return this.http.get('http://localhost:3000/user')
+  }
+  constructor(private http: HttpClient) { } //Injection
+}
+```
+
+3. Débuggez
+Quels sont les points de bugs recontrés ?
 
 
+Vous avez fini la v3. Normalement vous avez une chaine MEAN de bout en bout.
 
-
-
-
-
-
-
-
-
-
-
-
-
+--
+Ce que je n'ai pas dit.
+- Routage d'interface
+- Service, pipe, filter, composant : il existe quelques autres services dans angular.
+- TypeScript, typage...
 
 ----
 Pour aller plus loin  

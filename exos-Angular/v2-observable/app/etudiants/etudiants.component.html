@@ -1,0 +1,7 @@
+<h2>Mes étudiants</h2>
+<ul>
+  <li *ngFor='let etudiant of etudiants' (click)='onSelect(etudiant)'>
+    <span>{{etudiant.id}}</span> {{etudiant.nom}}
+  </li>
+</ul>
+<app-etudiant-detail [lEtudiant]='lEtudiant'></app-etudiant-detail>

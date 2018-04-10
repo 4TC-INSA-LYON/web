@@ -1,0 +1,8 @@
+<div *ngIf='lEtudiant'>
+  {{lEtudiant.nom | uppercase}}
+  <div>
+      <label>nom:
+        <input [(ngModel)]="lEtudiant.name" placeholder="nom">
+      </label>
+  </div>
+</div>
