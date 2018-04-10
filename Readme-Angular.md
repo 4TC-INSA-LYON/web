@@ -221,6 +221,134 @@ Votre code html devrait ressembler à cela.
 </div>
 ```
 
+//Vous êtes arrivé à la v0 de votre code
+
+# Création d'un sous-composant
+Dans les approches à composants, un des objectifs est de décomposer le plus possible les éléments en sous-composants. Dans notre cas, la liste des étudiants et un étudiant unitaire peuvent être séparés. Quand on sépare des éléments, le seul éléments à garder en tête est l'échange d'information entre les deux composants père et fils.
+
+Voici les étapes pour obtenir le code décomposé.
+
+1. Créer le sous composant 'detail-etudiant' en utilisant le CLI.
+`ng generate component detail-etudiant`.
+
+2. Séparez les templates d'affichage entre le composant parent et le composant détail. Vérifier que vous pouvez utiliser le composant détail, bien que les données ne sont pas transférées entre le parent et le fils.
+
+Il faut maintenant s'occuper du transfert de données entre les deux composants.
+Du coté du parent, il faut indiquer la variable transmise selon la syntaxe suivante.
+
+```html
+<selecteur [variableDansLeFils]='variableDansLePere'></selecteur>
+<app-detail-etudiant [lEtudiant]='lEtudiant'></app-detail>
+```
+Si vous faites cela uniquement, vous obtiendrez une erreur, car le composant fils ne sait pas quoi faire de cette valeur transmise. Il faut explicitement lui déclarer la récupération de cette variable. Cela se fait par l'utilisation d'un décorateur `Input` dans la déclaration du composant.
+
+```ts
+import { Component, OnInit, Input } from '@angular/core'; // Le décorateur Input est disponible
+
+@Component({
+  selector: 'app-etudiant-detail',
+  templateUrl: './etudiant-detail.component.html',
+  styleUrls: ['./etudiant-detail.component.css']
+})
+export class EtudiantDetailComponent implements OnInit {
+  @Input() lEtudiant; // L'étudiant ici est transmis du père au fils
+
+  constructor() { }
+  ngOnInit() { }
+}
+```
+
+# Création d'un service de données
+Dans cette partie nous verrons qu'Angular ne sert pas qu'à créer des composants. Vous avez vu qu'il existe des filtres (sisi, c'est avant). Vous pouvez également créer des services. Un service est un objet javascript qui est 'injecté' dans les composants que vous voulez. Par exemple, on bon design est de grouper les services d'accès aux données dans des services angular.
+
+1. Création du pattern de service initial
+`ng generate service etudiants`
+
+Observez les fichiers générés.
+
+Angular repose sur le principe d'injection de dépendances. Par exemple, vous pouvez demander de vous faire injecter le service etudiants où vous le désirer.
+
+2. Pour cela, il faut le déclarer dans les fournisseurs de l'application. Dans le fichier `app.modules.ts`, dans la partie provider
+`providers: [EtudiantsService],...`. Attention, il peut y avoir beaucoup d'erreur de syntaxe. Vérifiez que le service est bien injecté, en vérifiant que la console ne sort pas d'erreur.
+
+3. Préparons le service
+Votre service d'Etudiants doit ressembler à cela.
+```ts
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class EtudiantsService {
+
+  getEtudiants() {
+    return [
+      { id: 11, nom: 'Mr. Nice' },
+      { id: 12, nom: 'Narco' },
+      { id: 13, nom: 'Bombasto' },
+      { id: 14, nom: 'Celeritas' },
+      { id: 15, nom: 'Magneta' },
+      { id: 16, nom: 'RubberMan' },
+      { id: 17, nom: 'Dynama' },
+      { id: 18, nom: 'Dr IQ' },
+      { id: 19, nom: 'Magma' },
+      { id: 20, nom: 'Tornado' }
+    ];
+  }
+  constructor() { }
+}
+```
+
+Pensez à sauvegarder et vérifier votre console.
+
+4. Utilisons le service
+```ts
+import { Component, OnInit } from '@angular/core';
+import { EtudiantsService } from '../etudiants.service'
+
+@Component({
+  selector: 'app-etudiants',
+  templateUrl: './etudiants.component.html',
+  styleUrls: ['./etudiants.component.css']
+})
+export class EtudiantsComponent implements OnInit {
+
+  etudiants = [ ];
+  lEtudiant:any;
+
+  onSelect(unEtudiant) { this.lEtudiant = unEtudiant}
+
+  getEtudiants(): void {
+    this.etudiants = this.etudiantsService.getEtudiants();
+  }
+
+  constructor(private etudiantsService: EtudiantsService) { }
+
+  ngOnInit() { this.getEtudiants(); }
+}
+```
+Où est injecté le service ?
+Quel appel utilise le service ?
+
+Normalement à cette étape vous devriez avoir le même fonctionnement que précédemment. Vous êtes à la v1 (cf github) du logiciel : 
+  - l'approche à composants est bonne
+  - Vous avez 2 composants et 1 service
+  - Vous savez définir un composant et l'accrocher aux autres
+  - Vous savez définir un service et l'injecter dans le système.
+
+Il vous manque encore l'accès à un système extérieur asynchrone comme un site web.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
