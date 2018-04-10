@@ -13,7 +13,7 @@ On reste encore sur une vision de dépendance forte entre le client Web et le se
 
 Google, en 2010 propose un framework complet de gestion d'application dans le navigateur. L'idée maitresse d'Angular est d'imaginer une application autonome sur le poste client. Angular est donc une révolution dans l'approche classique du Web, car il considère le navigateur comme un espace d'exploitation d'applications locales.
 
-L'objectif de ce TP est de développer une application AngularJS minimale.
+L'objectif de ce TP est de développer une application Angular minimale.
 
 # Avant de démarrer
 Vous devez savoir manipuler les grandes lignes de nodejs, avoir compris le mécanisme de programmation d'ordre supérieur et particulièrement de callback dans javascript. Vous devez également maitriser les requêtes http.
@@ -22,223 +22,214 @@ Une application angularjs, est servie pas un serveur web. Lorsque l'utilisateur 
 
 Q1 pouvez-vous donner un définition comparative de framework, librairie, boite à outils ?
 
-# Création de l'environnement back et serveur minimal
+# Préparation du backoffice
+On repart des tp précédents. Voici la liste des instructions pour démarrer votre backoffice.
 
-    - A la racine de votre répertoire commencez par démarrer un projet npm avec la commande `npm init`
-    - Puis installez le module express (avec l'option --save)
-    - Créez un répertoire `back` qui contiendra le serveur et un répertoire `front` qui contiendra la partie cliente. C'est à dire l'application angularjs.
-    - Dans le front créez une page html minimale qui affiche 'bonjour', et dans le back configurez votre serveur pour envoyer la page html sur requête du client.
-    - Lancer votre serveur et vérifiez que la page est bien servie.
+1. Préparer votre moteur de base de données avec vos données
 
-# Ajout d'une route de récupération des modules angular
-Par la suite nous allons charger le framework angular dans le navigateur. Il faut donc ajouter une route au serveur permettant au client de récuperer ces différents modules.
+```bash
+mkdir -p /tmp/projet/back
+cd /tmp/projet/back
 
-De manière arbitraire, nous choisissons la route '/lib' pour pouvoir servir plus tard les modules nécessaires au framework angular.
+// Moteur
+wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.2.7.tgz
+tar zxvf mongodb-linux-x86_64-3.2.7.tgz
+mkdir base
+/tmp/projet/back/mongodb-linux-x86_64-3.2.7/bin/mongod --dbpath /tmp/projet/base
 
-    - Ajoutez la déclaration de la route 'lib', qui servira le contenu du répertoire ./node_modules qui a du être créé suite à l'installation d'express. Est-ce clair ?
-    - Vérifiez que le fichier `./nodes_modules/mime-types/package.json` existe. Comment faites-vous ?
-    - Testez que votre navigateur web arrive à charger le fichier. Comment faites-vous ?
-
-A partir de ce point, la partie backoffice est prête à livrer les pages de l'application que vous allez développer dans le répertoire front, et les modules de service dont vous allez avoir besoin pour le framework angular dans le répertoire node_modules.
-
-# Installation du framework angular
-Angular est donc un framework web installé dans le navigateur lorsqu'on accède au site web. Il s'agit donc d'un ensemble de scripts javascript chargés dans une page web initiale qui met à disposition de l'utilisateur une application dite autonome. Cette partie explique comment charger le framework en mémoire du browser web.
-
-    - Installez le module angular avec la commande `npm install angular --save`
-    - Ajoutez le chargement de ce script dans le `<body>` de votre page html avec l'instruction html suivante : <script src="/lib/angular/angular.min.js"></script>. Vérifiez que le module angular.min.js est bien chargé par le navigateur.
-
-Maintenant que la librairie est chargée sans erreur dans votre navigateur, vous pouvez déclarer une nouvelle application angularJS dans votre environnement. Une application est constituée d'un ensemble de modules. Le module principal décrit votre application. Chaque module doit être chargé explicitement par votre navigateur. Il y a plusieurs manière de faire. Nous proposons l'approche suivante :
-
-    - Déclarez dans votre page html l'utilisation du module BlankApp avec l'instruction suivante : <body ng-app="BlankApp">...
-    - Créez un fichier module.js dans votre repertoire `front`, qui déclare une application 'BlankApp'. La déclaration d'une application est décrit ici. https://docs.angularjs.org/api/ng/function/angular.module
-    - Pensez à charger le fichier module.js dans votre front (le charger dans votre `index.html`).
-
-Chargez votre application. Celle-ci ne fait rien pour l'instant, mais vous devez constater le chargement de tous les modules.
-
-# Ajout d'un bouton dans l'interface et traitement angular
-Vous allez maintenant ajouter un bouton dans votre interface utilisateur afin de déclencher les interactions.
-
-Nous allons ajouter ce bouton directement dans la page principale après a balise <body> selon la syntaxe suivante `<button ng-click='coucou()'>Clique moi</button>`. Le bouton déclare un attribut ng-click, qui, comme son préfixe l'indique est lié à angular, et comme son nom l'indique va déclencher une action liée au click souris.    
-
-    - Corrigez et relancer votre serveur et votre application web
-    - Cliquez sur le bouton
-
-    --> Que se passe t'il ?
-
-Il faut donc maintenant associer le traitement applicatif associé au click sans passer par le serveur web (sinon on serait sur une architecture web2.0). AngularJs est un framework puissant, décomposant les applications dans une approche MVC (Modèle / Vue / Contrôleur). La vue est constituée par la page html, le contrôleur angular est un objet qui va avoir la charge de gérer le modèle de données de la vue et les fonctions de traitement associées. Nous allons donc associer un contrôleur au bouton que vous venez de créer. Corrigez votre bouton afin de lui affilier un controller. `<button ng-click='coucou()' ng-controller='unController'>Clique moi</button>`.
-
-    - Corriger et lancer, observer et regarder l'erreur générée.
-
-Vous devez prendre conscience que l'architecture AngularJs est très souple. Vous pouvez associer un contrôler où vous le désirez, il sera valide à partir de sa balise de déclaration. Techniquement cela correspond à l'injection d'une fonction nommée dans le système qui devient utilisable aux sous-composants.
-
-Il faut maintenant déclarer le contrôleur dans votre déclaration d'application et déclarer la fonction coucou() dans ce dernier.
-Transformez la déclaration d'application (module.js) par l'appel suivant.
-
-```javascript    
-angular.module('BlankApp', [])
-.controller('unController', ['$scope',  function($scope) {
-  $scope.coucou = function() { console.log("Hello");}
-}]);
+// Importation données
+wget https://github.com/4TC-INSA-LYON/web/blob/master/dump.tgz?raw=true -O dump.tgz
+tar zxvf dump.tgz
+mongorestore --noIndexRestore --drop dump/
 ```
 
-Que fait exactement l'appel à la fonction controller.
-Faisons un tour par les monades...
+A partir d'ici vous pouvez tester votre gestion de données.
+```bash
+/tmp/projet/back/mongodb-linux-x86_64-3.2.7/bin/mongo
+> db.users.find().count()
+20
+```
 
-Rechargez votre page, et cliquez sur le bouton. Avez-vous remarqué que vous n'avez pas relancé le serveur ?
-Vous êtes maintenant capable de déclencher une action sous la forme d'une fonction javascript dans le navigateur à partir d'une action sur l'interface utilisateur.
+2. Installation du serveur express
 
-Serez-vous capable d'afficher une donnée issue du contrôleur dans le navigateur.
-Pour cela, transformez votre contrôleur pour qu'il maintienne une variable interne 'titre', accessible dans le scope du navigateur, qui représente le titre du bouton par exemple.
-Accédez cette variable du contrôleur dans l'interface par l'opérateur {{ }}.
+```bash
+wget https://raw.githubusercontent.com/4TC-INSA-LYON/web/master/exos-Express/package.json
+wget https://raw.githubusercontent.com/4TC-INSA-LYON/web/master/exos-Express/index.js
+npm install
+node
+```
+Vous pouvez tester en chargeant la page `http://localhost:3000/user`
 
-Bravo !!!
-Si vous êtes là et que vous avez compris ce que vous venez de faire. Vous avez chargé une application autonome dans le navigateur, qui présente une architecture MVC, entièrement paramétrable. Cette application est initialement chargée par la requête Web de chargement initiale, est complètement couplée à l'interface graphique Web. Enfin, elle est capable de réaliser des exécutions complexes déclenchées par l'utilisateur.
+Votre backoffice web est prêt.
+Laissez vos deux process tourner en tâche de fond.
 
-Le génie-logiciel d'une application full-stack web commence maintenant. Comment architecturer une telle application ? où placer mes `controlleur`, comment organiser mon code pour le rendre modulable, sans qu'il ne devienne un sac de code ? Comment intégrer des fonctions externes, etc....
+# LE SUJET DEMARRE ICI
+Allez à la racine de votre projet
+```bash
+cd /tmp/projet
+```
 
-# Service bas niveau angular
-Afin de structurer le code, angular propose au bas niveau des 'providers de service'. On peut rapidement classer ces fournisseurs de services en 2 catégories :    
+Vous allez commencer par créer un environnement angular. Pour cela angular fournit maintenant un cli pour manipuler l'environnement.
 
-   - les fournisseurs qui aident à la structuration du code : Service, Factory et Constante. Ils permettent de regrouper des services communs pour les contrôleur. Un contrôler peut demander l'injection d'une Factory pour accéder à une fonction générique commune.
-   - Les fournisseurs qui aident à l'intégration dans l'interface utilisateur : Filter, Directive, Component.
+Installation du cli angular
+```bash
+npm install -g @angular/cli
+```
 
-Nous allons prendre deux exemples dans ces fournisseurs de service : La factory et le Filter.
+Préparation d'un environnement minimal pour votre application
+```bash
+ng new tpweb
+```
 
-## Déclaration d'une Factory pour les sous-requêtes web
-On va utiliser une Factory pour mettre à disposition une fonction de requête sur le web. On utilise cette Factory pour interroger notre site de référence et y récupérer des données.
+Une fois votre environnement créer, votre première application Angular peut être lancée.
+```bash
+cd tpweb
+ng serve --open
+```
 
-    - Commencez par ajouter une route /test sur votre backend, qui retourne un simple document json. (cf. TD précédent) Relancez votre serveur web et testez que la route fonctionne.
-    - Ajoutez la Factory suivante à votre module.
+# Modification d'une valeur affichée
+Si tout se passe bien, vous voyez une page d'accueil sans avoir écrit une seule ligne de code. Angular propose une approche à composants pour architecturer des applications dans le navigateur. Lorsque vous démarrer un nouveau projet le composant initial est dans le répertoire `src/app`.
+
+Modifiez le fichier `app.compent.ts` pour adapter l'attribut `title` sur une autre valeur texte.
+
+Prenez 10 min pour bien comprendre ce qui se passe ici.
+
+# Création d'un composant 'etudiants'
+Le cli angular vous permet d'ajouter facilement un composant dans votre application. Notre application générale veut afficher une liste d'étudiants. En première approche nous allons créer un composant affichant un simple étudiant.
+
+`ng generate component etudiants`.
+Observez les fichiers créés après cet appel. De quoi est constitué un composant javascript ?
+Une valeur importante à connaitre est l'attribut `selector` du fichier de description du composant. Cet attribut indique le nom du composant pour le référencer dans les pages html qui veulent l'insérer.
+
+    Modifiez la page principale pour afficher
+    le composant étudiants.
+
+    Pour afficher un composant, il suffit d'appeler son selecteur.
+       <app-xxx></app-xxx>
+
+# Afficher une donnée issue du composant
+En vous inspirant de l'affichage du titre `{{app}}` ajoutez une valeur dans le fichier `etudiants.component.ts` et utilisez-là dans le fichier `etudiants.component.html'.
+
+# Déclaration d'une structure
+Votre étudiant est certainement plus complexe. Il a un nom, un identifiant, etc.
+Une structure d'étudiant pourrait être :
 
 ```javascript
-.factory('WebQuest', ['$http', function($http) {
-  return {
-    chercheCherche: function() {
-      $http.get('http://localhost:3000/test')
-      .then(res => {console.log('-->', res)});
-    }
-  }
-}])
+etudiant = {
+  nom: 'Stéphane',
+  id: 1
+}
 ```
 
-Que fait-elle (beaucoup de choses à dire)...
+# Vous pouvez filtrer l'affichage
+Que se passe t'il si vous faites {{etudiant.nom | uppercase}}`
 
-    - Vous pouvez maintenant l'injecter dans votre controller et invoquer la fonction chercheCherche() quand vous le voulez.
+# Liaison dans les deux sens
+Pour l'instant vous êtes capables de définir une variable dans un script (typescript ici) qui est utilisé dans l'interface utilisateur avec l'opérateur `{{ }}` (encore appelé moustache moustache !!). Il faut maintenant également pouvoir récupérer une donnée saisie dans l'interface html qui mette à jour la variable interne.
 
+Avant de pouvoir l'utiliser dans votre code, il faut indiquer au framework que vous allez utiliser le module de gestion de formulaires. Vous devez ajouter dans le fichier `app.modules.ts` les deux instructions suivantes pour importer `FormsModule`.
 
-Mais.... Bravo à nouveau !!!! vous venez de décloisonner votre application qui peut maintenant interroger votre serveur pour synchroniser vos données. Cette synchronisation se fait sans changement de page web (une révolution).
-
-## Le Filter
-Le second fournisseur de service que nous allons écrire est le Filter. Il permet de traiter un résultat affiché par un filtre. Ceci fonctionne de manière similaire au pipe '|' unix.
-
-    `ls | wc | xargs | cut -d ' ' -f 1` -> que fait cette commande ?
-```javascript
-.filter('reverse', function() {
-  return function(input, uppercase) {
-    input = input || '';
-    var out = '';
-    for (var i = 0; i < input.length; i++) {
-      out = input.charAt(i) + out;
-    }
-    // conditional based on optional argument
-    if (uppercase) {
-      out = out.toUpperCase();
-    }
-    return out;
-  };
-})
+```ts
+import { FormsModule } from '@angular/forms';
+imports: [
+  BrowserModule,
+  FormsModule
+],
 ```
 
-Appliquez ce filtre sur l'affichage du titre avec l'opérateur |.
+Normalement, il n'y a aucune modification à la suite de cet import. Vous pouvez vérifier dans votre console de lancement et votre console javascript du navigateur.
 
-Vous pouvez maintenant développer une application regroupant les grandes lignes d'angularJS. Une des forces d'angular est d'intégrer facilement des modules développés par des tierces parties. Dans ce dernier exercice nous allons restructurer l'application afin d'utiliser des composants angular et un module externe de routage dans l'application : ui-router.
-Ces deux modifications permettent de structurer l'application que vous développez en services autonomes.
+Vous pouvez maintenant ajouter une zone de saisie à la suite de l'affichage du nom de l'étudiant.
 
-# Extraction du composant
-Un composant angular, est un répertoire qui déclare la structure d'une balise html. Elle déclare donc le `controlleur` et la vue associée à la directive.
-Remplacez la directive déclarant votre bouton par une nouvelle directive.
-
-`<toto></toto>` par exemple, et chargez dans la page index.html la déclaration de la directive avec l'instruction suivante :
-`<script src='root/root.js'></script>`
-Votre index.html, doit ressemble à cela :    
 ```html
-<html>
-  <body ng-app="BlankApp"> <!-- déclaration de l'application -->
-    <root></root>
-    <script src="/lib/angular/angular.min.js"></script>
-    <script src="modules.js"></script> <!-- Chargement de l'application -->
-    <script src="root/root.js"></script> <!-- Chargement d'une directive -->
-  </body>
-</html>
-```
-Placez la directive de déclaration de votre bouton dans un fichier `root.html`et placez le dans le dossier `/front/root/`.
-
-Et voici la déclaration du fichier root/root.js
-```javascript
-angular.module('BlankApp').component('root', {
-   templateUrl: 'root/root.html',
-   controller: ['$scope', 'WebQuest', function($scope, WebQuest) {
-     $scope.coucou = function() {
-       console.log("Hello");
-       WebQuest.call(); }
-     $scope.titre = "Bonjour maman";
-   }]
-})
+<div>
+    <label>nom:
+      <input [(ngModel)]="etudiant.nom" placeholder="nom">
+    </label>
+</div>
 ```
 
-Rechargez votre client et vérifiez que cela fonctionne comme avant.
-Qu'avez-vous fait ?
+# Passons à une liste d'étudiants
+Nous allons simuler une liste d'étudiants en remplaçant l'étudiant par la liste suivante. Pour des questions de simplification du code pour la suite, je vous suggère de 'sortir' la liste du composant. Vous devriez avoir le code suivant.
 
-# Utilisation du module ui-router.
-https://github.com/angular-ui/ui-router/tree/legacy
-
-Le module externe ui-router, est un outil de gestion des routes locales à l'application. Tout comme il existe des routes pour accéder aux services Web distant en référence aux routes REST par exemple, une application front angularjs, peut présenter des routes de navigation à l'utilisateur lorsqu'il change de page. AngularJS fourni un routeur de base de qualité médiocre. ui-router est un module avancé pour la gestion des routes locales.
-
-Avant d'utiliser ui-router, vous allez déclarer un nouveau composant simple `coucou` qui affiche un texte.    
-    - A partir de ce que vous savez du composant 'root', réalisez un composant 'toto' qui affiche 'foo'.
-    - Testez ce composant en remplaçant l'appel à <root></root>, tout en conservant le reste, dans la page principale par <toto></toto> et vérifiez qu'il fonctionne.
-
-Maintenant vous allez réaliser le routage entre root et toto
-
-    - installer par npm le module angular-ui-router@1.0.0-rc.1 --save
-        !! Attention à la version
-    - chargez le script angular-ui-router dans le navigateur avec la balise suivante
-    `<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>`
-    - remplacez <toto></toto> dans votre document principal par la directive générique <ui-view></ui-view>. A partir de maintenant, votre ui-routeur peut remplacer ui-view, par un composant en fonction de la route choisie.
-    - Déclarer la route suivante dans le fichier de description de l'application    
 
 ```javascript
-angular.module('BlankApp', ['ui.router'])
-.config(function($stateProvider) {
-  $stateProvider
-  .state(
-    'home'
-  ,
-    {
-      url: '/',
-      component: 'root'
-    }
-  )
+import { Component, OnInit } from '@angular/core';
+
+let ETUDIANTS = [
+  { id: 11, nom: 'Mr. Nice' },
+  { id: 12, nom: 'Narco' },
+  { id: 13, nom: 'Bombasto' },
+  { id: 14, nom: 'Celeritas' },
+  { id: 15, nom: 'Magneta' },
+  { id: 16, nom: 'RubberMan' },
+  { id: 17, nom: 'Dynama' },
+  { id: 18, nom: 'Dr IQ' },
+  { id: 19, nom: 'Magma' },
+  { id: 20, nom: 'Tornado' }
+];
+
+@Component({
+  selector: 'app-etudiants',
+  templateUrl: './etudiants.component.html',
+  styleUrls: ['./etudiants.component.css']
 })
+export class EtudiantsComponent implements OnInit {
+  etudiants = ETUDIANTS;
+  ...
+}
 ```
 
-- Cherchez la page localhost:3000/#!/
+La visualisation des éléments de cette liste peut se faire en utilisant la directive de répétition d'angular `*ngFor`.
 
-Si la page s'affiche normalement, vous pouvez maintenant déclarer une nouvelle route 'toto', vers toto, qui est déclanchée sur le click dans un autre bouton avec la directive ui-sref='toto'.
-1) Ajouter la route et testez l'état
-2) Ajouter un paramètre de la directive ui-sref qui pointe vers le nouvel état dans un bouton de la page root.html
+Elle s'utilise dans des constructions de type `<ul><li>...<li></ul>`
 
-----   
-Si vous êtes arrivé-là et que vous avez tout compris, vous avez le niveau pour comprendre angularjs.
+Vous pouvez maintenant afficher la liste des étudiants.
 
-Vous pouvez maintenant partir sur les interfaces graphiques comme material-design  et utiliser le module angular-material pour avoir accès à des outils d'interface graphique avancée.   https://material.angularjs.org/latest/
+```javascript
+<h2>Mes étudiants</h2>
+<ul>
+  <li *ngFor='let etudiant of etudiants'>
+    <span>{{etudiant.id}}</span> {{etudiant.nom}}
+  </li>
+</ul>
+```
 
-Vous pouvez également courir apprendre typeScript et basculer soit sur Angular 2, soit sur ReactJS qui sont les versions suivantes de ces architectures. Elles apportent une simplification pour le programmeur et une vision encore plus applicative d'une application Web.
+# Action sur un click
+La dernière chose à gérer au niveau de l'interface utilisateur est le click sur un élément de la liste. Pour cela, vous allez utiliser la liaison sur l'événement click sur la balise `<li>`. La forme de cette action est la suivante : `<li *ngFor='let etudiant of etudiants' (click)='onSelect(etudiant)'>`. Dans cette expression le click invoquera la méthode onSelect de votre code.
+Lorsque vous cliquez sur un élément de la liste une action est alors générée dans le code.
 
-Enfin, si vous avez compris cette série de td/tp sur Javascript vous êtes capable de développer des applications très hautes performances pour le Web.
+# Affichage conditionnel
+Vous pouvez éviter d'initialiser un étudiant, en conditionnant l'affichage d'un élément de la liste avec l'instruction angular `*ngif`.
+
+Votre code html devrait ressembler à cela.
+```html
+<h2>Mes étudiants</h2>
+<ul>
+  <li *ngFor='let etudiant of etudiants' (click)='onSelect(etudiant)'>
+    <span>{{etudiant.id}}</span> {{etudiant.nom}}
+  </li>
+</ul>
+
+<div *ngIf='lEtudiant'>
+  {{lEtudiant.nom | uppercase}}
+  <div>
+      <label>nom:
+        <input [(ngModel)]="lEtudiant.nom" placeholder="nom">
+      </label>
+  </div>
+</div>
+```
+
+
+
+
 
 ----
 Pour aller plus loin  
+
+https://angular.io/guide/quickstart
+
 https://hackernoon.com/angular-vs-react-the-deal-breaker-7d76c04496bc#.qv6ov83cb
 
 https://hackernoon.com/100-free-resources-to-learn-full-stack-web-development-5b40e0bdf5f2
