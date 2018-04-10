@@ -402,7 +402,7 @@ export class EtudiantsService {
 Quels sont les points de bugs recontrés ?
 
 
-Vous avez fini la v3. Normalement vous avez une chaine MEAN de bout en bout.
+Vous avez fini la v3 également disponible en ligne. Normalement vous avez une chaine MEAN de bout en bout.
 
 --
 Ce que je n'ai pas dit.
