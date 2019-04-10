@@ -35,7 +35,7 @@ cd /tmp/projet/back
 wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.2.7.tgz
 tar zxvf mongodb-linux-x86_64-3.2.7.tgz
 mkdir base
-/tmp/projet/back/mongodb-linux-x86_64-3.2.7/bin/mongod --dbpath /tmp/projet/base
+/tmp/projet/back/mongodb-linux-x86_64-3.2.7/bin/mongod --dbpath /tmp/projet/back/base
 
 // Importation données
 wget https://github.com/4TC-INSA-LYON/web/blob/master/dump.tgz?raw=true -O dump.tgz
